@@ -5,4 +5,12 @@ class Pin < ActiveRecord::Base
 
   validates :image, presence: true
   validates :description, presence: true
+
+  def self.search(search)
+    if search
+      find(:all, :conditions => ['description LIKE ?', "%#{search}%"])
+    else
+      find(:all)
+    end
+  end
 end

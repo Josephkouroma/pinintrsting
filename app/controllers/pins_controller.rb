@@ -2,10 +2,11 @@
 class PinsController < ApplicationController
   before_action :set_pin, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, :unless => :devise_controller?, expect: [:index, :show]
+  before_action :authenticate_user!, :unless => :devise_controller?, except: [:index, :show]
 
   def index
-    @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
+    # @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
+    @pins = Pin.search(params[:search])
   end
 
   def show
