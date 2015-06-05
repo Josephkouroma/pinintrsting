@@ -5,8 +5,18 @@ class PinsController < ApplicationController
   before_action :authenticate_user!, :unless => :devise_controller?, except: [:index, :show]
 
   def index
-    # @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
-    @pins = Pin.search(params[:search])
+    if params[:search]
+     @pins = Pin.search(params[:search]).order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
+     @user = User.search(params[:search]).order("created_at DESC").paginate(:page => params[:page],:per_page => 1)
+    else
+     @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
+     @user = User.all.order("created_at DESC").paginate(:page => params[:page],:per_page => 2)
+    end
+
+    # @pins = Pin.search(params[:search]).order("created_at DESC").paginate(:page => params[:page],:per_page => 1)
+
+    # @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page],:per_page => 1)
+    # @pins = Pin.search(params[:search])
   end
 
   def show

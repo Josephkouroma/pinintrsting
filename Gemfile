@@ -18,6 +18,7 @@ gem 'will_paginate', '~> 3.0.6'
 gem 'will_paginate-bootstrap'
 gem 'pg'
 
+
 group :development, :test do
 # gem 'debugger'
 end
