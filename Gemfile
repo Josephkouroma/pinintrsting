@@ -17,6 +17,9 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'will_paginate', '~> 3.0.6'
 gem 'will_paginate-bootstrap'
 gem 'pg'
+gem 'mysql2'
+gem 'jdbc-mysql'
+gem 'thinking-sphinx'
 
 
 group :development, :test do

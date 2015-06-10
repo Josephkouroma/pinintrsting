@@ -7,12 +7,21 @@ class Pin < ActiveRecord::Base
   validates :image, presence: true
   validates :description, presence: true
 
-  def self.search(search)
-    if search
-      where(['description LIKE ?', "%#{search}%"])
-    else
-      scoped
-    end
+  define_index do
+    indexes image.description
+    indexes description, sortable: true
+    indexes comments.content, as: :comment_content
+    indexes [author.first_name, author.last_name], as: :author_name
+
+    has author_id, published_at
   end
+
+#   def self.search(search)
+#     if search
+#       where(['description LIKE ?', "%#{search}%"])
+#     else
+#       scoped
+#     end
+#   end
 end
 
