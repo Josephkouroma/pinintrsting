@@ -6,6 +6,7 @@ class PinsController < ApplicationController
 
   def index
     if params[:search]
+     # @pins = Pin.text_search(params[:search]).order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
      @pins = Pin.search(params[:search]).order("created_at DESC").paginate(:page => params[:page],:per_page => 8)
      @user = User.search(params[:search]).order("created_at DESC").paginate(:page => params[:page],:per_page => 1)
     else
@@ -67,3 +68,4 @@ class PinsController < ApplicationController
     params.require(:pin).permit(:description, :image)
   end
 end
+

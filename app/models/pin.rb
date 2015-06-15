@@ -7,21 +7,20 @@ class Pin < ActiveRecord::Base
   validates :image, presence: true
   validates :description, presence: true
 
-  define_index do
-    indexes image.description
-    indexes description, sortable: true
-    indexes comments.content, as: :comment_content
-    indexes [author.first_name, author.last_name], as: :author_name
+  include PgSearch
+  pg_search_scope :search, :against => [:description]
 
-    has author_id, published_at
+
+
+
+  def self.search(search)
+    if search.present?
+      # where(['description ilike ?', "%#{search}%"])
+      # where(['description ilike :q', q: "%#{search}%"])
+      where("to_tsvector('english',description) @@ plainto_tsquery(:q)", q: search)
+    else
+      all
+    end
   end
-
-#   def self.search(search)
-#     if search
-#       where(['description LIKE ?', "%#{search}%"])
-#     else
-#       scoped
-#     end
-#   end
 end
 
