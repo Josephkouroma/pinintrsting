@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603084208) do
+ActiveRecord::Schema.define(version: 20150615174357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "unaccent"
+  enable_extension "pg_trgm"
+  enable_extension "fuzzystrmatch"
+
+  create_table "pg_search_documents", force: true do |t|
+    t.text     "content"
+    t.integer  "searchable_id"
+    t.string   "searchable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pg_search_documents", ["searchable_id", "searchable_type"], name: "index_pg_search_documents_on_searchable_id_and_searchable_type", using: :btree
 
   create_table "pins", force: true do |t|
     t.string   "description"

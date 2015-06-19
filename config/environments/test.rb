@@ -33,4 +33,7 @@ Pinteresting::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # https://robots.thoughtbot.com/implementing-multi-table-full-text-search-with-postgres
+  config.active_record.schema_format = :sql
 end

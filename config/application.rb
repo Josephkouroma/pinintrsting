@@ -22,5 +22,8 @@ module Pinteresting
 
     #Required for Heroku
     config.assets.initialize_on_precompile = false
+
+    # full text search with postgres
+    config.active_record.schema_format = :sql
   end
 end
