@@ -13,7 +13,7 @@ class Pin < ActiveRecord::Base
   include PgSearch
   # multisearchable against: [:description]
   pg_search_scope :pins, :against => [:description],
-    using: {tsearch: {dictionary: "english"}},
+    using: {tsearch: {dictionary: "english", any_word: true, prefix: true}},
     associated_against: {user: :name }
 
 
@@ -21,12 +21,8 @@ class Pin < ActiveRecord::Base
 
   def self.search(search)
     if search.present?
-      # where(['description ilike ?', "%#{search}%"])
-      # where(['description ilike :q', q: "%#{search}%"])
-      # where("description @@ :q", :q => search)
       # where("to_tsvector('english',description) @@ plainto_tsquery('english',:q)", q: search)
-      where("to_tsvector('english',description) @@ plainto_tsquery('english',:q)", q: "%#{search}%")
-      # where("to_tsvector('english',:q) @@ plainto_tsquery('english',:q)", q: search)
+      where("to_tsvector('english',description) @@ to_tsquery('english',:q)", q: search)
     else
       all
     end
